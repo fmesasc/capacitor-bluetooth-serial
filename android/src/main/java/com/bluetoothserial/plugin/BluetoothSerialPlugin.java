@@ -321,15 +321,39 @@ public class BluetoothSerialPlugin extends Plugin {
       return;
     }
 
-    String value = call.getString(KeyConstants.VALUE);
-    Log.i(getLogTag(), value);
+    if (call.hasOption(KeyConstants.VALUE)) {
+        try {
+            Object value = call.getData().get(KeyConstants.VALUE);
 
-    boolean success = getService().write(address, BluetoothDeviceHelper.toByteArray(value));
+            byte[] dataToSend;
 
-    if (success) {
-      call.resolve();
+            if (value instanceof String) {
+                Log.i(getLogTag(), "Sending string, will be UTF-8 encoded");
+                String str = (String) value;
+                dataToSend = BluetoothDeviceHelper.toByteArray(str);
+            } else if (value instanceof com.getcapacitor.JSArrayBuffer) {
+                Log.i(getLogTag(), "Sending raw ArrayBuffer");
+                com.getcapacitor.JSArrayBuffer buf = call.getArrayBuffer(KeyConstants.VALUE);
+                dataToSend = buf.getBytes();
+            } else {
+                call.reject("Invalid value type: must be string or ArrayBuffer");
+                return;
+            }
+
+            boolean success = getService().write(address, dataToSend);
+
+            if (success) {
+                call.resolve();
+            } else {
+                call.reject(ERROR_WRITING);
+            }
+
+        } catch (Exception e) {
+            Log.e(getLogTag(), "Exception in write", e);
+            call.reject(ERROR_WRITING, e);
+        }
     } else {
-      call.reject(ERROR_WRITING);
+        call.reject("Missing 'value' in write options");
     }
   }
 

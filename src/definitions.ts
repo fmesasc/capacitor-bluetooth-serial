@@ -121,7 +121,7 @@ export interface BluetoothReadUntilOptions {
 
 export interface BluetoothWriteOptions {
     address: string;
-    value: string;
+    value: string | ArrayBuffer;
 }
 
 export interface BluetoothStartNotificationsOptions {

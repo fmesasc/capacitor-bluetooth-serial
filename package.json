@@ -1,7 +1,7 @@
 {
-  "name": "@e-is/capacitor-bluetooth-serial",
-  "version": "6.0.3",
-  "description": "Capacitor Bluetooth Serial Plugin",
+  "name": "@fmesasc/capacitor-bluetooth-serial",
+  "version": "6.0.3-custom.0",
+  "description": "Fork of @e-is/capacitor-bluetooth-serial with support for ArrayBuffer in write()",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -30,7 +30,7 @@
     "prepublishOnly": "npm run build",
     "publish:cocoapod": "pod trunk push ./CapacitorBluetoothSerial.podspec --allow-warnings"
   },
-  "author": "Gerson Groth",
+  "author": "Francisco Mesas",
   "license": "MIT",
   "devDependencies": {
     "@capacitor/android": "^6.0.0",
@@ -67,13 +67,14 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "bluetooth"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/e-is/capacitor-bluetooth-serial"
+    "url": "https://github.com/fmesasc/capacitor-bluetooth-serial"
   },
   "bugs": {
-    "url": "https://github.com/e-is/capacitor-bluetooth-serial/issues"
+    "url": "https://github.com/fmesasc/capacitor-bluetooth-serial/issues"
   }
 }
