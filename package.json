@@ -1,6 +1,6 @@
 {
   "name": "@fmesasc/capacitor-bluetooth-serial",
-  "version": "6.0.3-custom.0",
+  "version": "6.0.3-custom.1",
   "description": "Fork of @e-is/capacitor-bluetooth-serial with support for ArrayBuffer in write()",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

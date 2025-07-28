@@ -86,7 +86,7 @@ export interface BluetoothReadUntilOptions {
 }
 export interface BluetoothWriteOptions {
     address: string;
-    value: string;
+    value: string | number[];
 }
 export interface BluetoothStartNotificationsOptions {
     address: string;

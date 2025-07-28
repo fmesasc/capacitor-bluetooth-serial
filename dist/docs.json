@@ -543,7 +543,7 @@
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "string"
+          "type": "string | number[]"
         }
       ]
     },

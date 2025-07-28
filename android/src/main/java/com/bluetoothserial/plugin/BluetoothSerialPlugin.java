@@ -35,6 +35,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 @CapacitorPlugin(
   name = "BluetoothSerial",
   permissions = {
@@ -325,20 +329,30 @@ public class BluetoothSerialPlugin extends Plugin {
         try {
             Object value = call.getData().get(KeyConstants.VALUE);
 
-            byte[] dataToSend;
+            byte[] dataToSend = null;
+
+            // Show instanceoff value for debugging
+            Log.i(getLogTag(), "write() called with value: " + value);
+            Log.i(getLogTag(), "write() value type: " + (value != null ? value.getClass().getName() : "null"));
 
             if (value instanceof String) {
                 Log.i(getLogTag(), "Sending string, will be UTF-8 encoded");
                 String str = (String) value;
                 dataToSend = BluetoothDeviceHelper.toByteArray(str);
-            } else if (value instanceof com.getcapacitor.JSArrayBuffer) {
+            } else if (value instanceof JSONArray) {
                 Log.i(getLogTag(), "Sending raw ArrayBuffer");
-                com.getcapacitor.JSArrayBuffer buf = call.getArrayBuffer(KeyConstants.VALUE);
-                dataToSend = buf.getBytes();
+                JSONArray array = (JSONArray) value;
+                Log.i(getLogTag(), value.toString());
+                dataToSend = new byte[array.length()];
+
+                for (int i = 0; i < array.length(); i++) {
+                    dataToSend[i] = (byte) array.optInt(i);  // optInt evita excepciones si hay nulls
+                }
             } else {
-                call.reject("Invalid value type: must be string or ArrayBuffer");
+                call.reject("Invalid value type: must be string or number[]");
                 return;
             }
+
 
             boolean success = getService().write(address, dataToSend);
 
